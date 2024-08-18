@@ -35,6 +35,30 @@ endif()
 # Install library
 install(TARGETS libtransformers_php DESTINATION lib)
 
+# Detect the platform and architecture
+if (WIN32)
+    set(PLATFORM_NAME "windows")
+    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(ARCHITECTURE "x86_64")
+    else()
+        set(ARCHITECTURE "x86")
+    endif()
+elseif (APPLE)
+    set(PLATFORM_NAME "macos")
+    if (CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
+        set(ARCHITECTURE "arm64")
+    else()
+        set(ARCHITECTURE "x86_64")
+    endif()
+elseif (UNIX)
+    set(PLATFORM_NAME "linux")
+    if (CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+        set(ARCHITECTURE "arm64")
+    else()
+        set(ARCHITECTURE "x86_64")
+    endif()
+endif()
+
 # Install header file
 install(FILES include/transformers_php.h DESTINATION include)
 
@@ -46,7 +70,7 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Fast Utilities for TransformersPHP")
 set(CPACK_PACKAGE_VENDOR "CodeWithKyrian")
 set(CPACK_PACKAGE_LICENSE "MIT")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://codewithkyrian.com")
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PLATFORM_NAME}-${ARCHITECTURE}")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
 
 # Specify package output directory
