@@ -73,6 +73,7 @@ jobs:
         with:
           path: libs
           pattern: libtransformers_php-*
+          merge-multiple: true
           
       - name: Release
         uses: softprops/action-gh-release@v2
