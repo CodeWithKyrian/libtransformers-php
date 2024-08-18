@@ -1,0 +1,82 @@
+name: Build and Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - name: Linux
+            platform: linux
+            os: ubuntu-latest
+            configure-options: ''
+          - name: Windows
+            platform: windows
+            os: windows-latest
+            configure-options: -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows
+          - name: macOS x86_64
+            platform: macos_x86_64
+            os: macos-13
+            configure-options: ''
+          - name: macOS arm64
+            platform: macos_arm64
+            os: macos-latest
+            configure-options: ''
+      
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          cmake -S . -B build && cmake --build build --config Release
+      
+      - name: Package
+        run: |
+          cd build
+          cpack -C Release
+          
+      - name: Upload Artifact
+#        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: libtransformers-php-${{ matrix.platform }}
+          path: build/*.tar.gz
+          
+          
+  release:
+    needs: 
+      - build
+    
+    runs-on: ubuntu-latest
+    
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: libs
+          pattern: libtransformers-php-*
+          merge-multiple: true
+          
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            libs/*
