@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "fast_transformers_utils.h"
+#include "libtransformers-php.h"
 
 static int calculate_reflect_offset(int i, int w)
 {
