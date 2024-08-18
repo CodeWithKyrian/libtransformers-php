@@ -9,7 +9,7 @@ on:
       - main
   release:
     types:
-      - created
+      - published
 
 jobs:
   build:
@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: libs
-          pattern: libtransformersphp-*
+          pattern: libtransformers_php-*
           
       - name: Release
         uses: softprops/action-gh-release@v2
