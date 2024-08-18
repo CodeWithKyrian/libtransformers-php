@@ -31,11 +31,11 @@ jobs:
           - name: macOS x86_64
             platform: macos_x86_64
             os: macos-13
-            configure-options: ''
+            configure-options: -DCMAKE_OSX_ARCHITECTURES=x86_64
           - name: macOS arm64
             platform: macos_arm64
             os: macos-latest
-            configure-options: ''
+            configure-options: -DCMAKE_OSX_ARCHITECTURES=arm64
       
     
     steps:
