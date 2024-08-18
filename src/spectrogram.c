@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "libtransformers-php.h"
+#include "transformers_php.h"
 #include "kiss_fft.h"
 #include "kiss_fftr.h"
 
