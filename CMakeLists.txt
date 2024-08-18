@@ -17,23 +17,23 @@ file(GLOB HEADERS "include/*.h")
 set(KISSFFT_SRCS kiss/kiss_fft.c  kiss/kiss_fftr.c)
 
 # Create shared library
-add_library(libtransformers_php SHARED ${SOURCES} ${KISSFFT_SRCS})
+add_library(libtransformersphp SHARED ${SOURCES} ${KISSFFT_SRCS})
 
 # Conditional linking for math library
 if (UNIX)
-    target_link_libraries(libtransformers_php m)
+    target_link_libraries(libtransformersphp m)
 endif()
 
 # Set library version
-set_target_properties(libtransformers_php PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(libtransformersphp PROPERTIES VERSION ${PROJECT_VERSION})
 
 # Set 
 if (WIN32)
-    target_compile_definitions(libtransformers_php PRIVATE FAST_TRANSFORMERS_UTILS_EXPORTS)
+    target_compile_definitions(libtransformersphp PRIVATE FAST_TRANSFORMERS_UTILS_EXPORTS)
 endif()
 
 # Install library
-install(TARGETS libtransformers_php DESTINATION lib)
+install(TARGETS libtransformersphp DESTINATION lib)
 
 # Detect the platform and architecture
 if (WIN32)
@@ -60,10 +60,10 @@ elseif (UNIX)
 endif()
 
 # Install header file
-install(FILES include/transformers_php.h DESTINATION include)
+install(FILES include/transformersphp.h DESTINATION include)
 
 # Configure CPack
-set(CPACK_PACKAGE_NAME "libtransformers_php")
+set(CPACK_PACKAGE_NAME "libtransformersphp")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_CONTACT "kyrianobikwelu@gmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Fast Utilities for TransformersPHP")
