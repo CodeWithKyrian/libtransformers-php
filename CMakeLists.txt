@@ -17,23 +17,23 @@ file(GLOB HEADERS "include/*.h")
 set(KISSFFT_SRCS kiss/kiss_fft.c  kiss/kiss_fftr.c)
 
 # Create shared library
-add_library(libtransformersphp SHARED ${SOURCES} ${KISSFFT_SRCS})
+add_library(transformersphp SHARED ${SOURCES} ${KISSFFT_SRCS})
 
 # Conditional linking for math library
 if (UNIX)
-    target_link_libraries(libtransformersphp m)
+    target_link_libraries(transformersphp m)
 endif()
 
 # Set library version
-set_target_properties(libtransformersphp PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(transformersphp PROPERTIES VERSION ${PROJECT_VERSION})
 
 # Set 
 if (WIN32)
-    target_compile_definitions(libtransformersphp PRIVATE FAST_TRANSFORMERS_UTILS_EXPORTS)
+    target_compile_definitions(transformersphp PRIVATE FAST_TRANSFORMERS_UTILS_EXPORTS)
 endif()
 
 # Install library
-install(TARGETS libtransformersphp DESTINATION lib)
+install(TARGETS transformersphp DESTINATION lib)
 
 # Detect the platform and architecture
 if (WIN32)
